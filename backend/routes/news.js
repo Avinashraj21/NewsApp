@@ -1,6 +1,5 @@
 const express = require('express');
 const axios = require('axios');
-const { notifySubscribers } = require('./subscription');
 const router = express.Router();
 const categories = ['business', 'entertainment', 'health', 'science', 'sports'];
 
@@ -15,7 +14,7 @@ router.get('/:category', async (req, res) => {
         const response = await axios.get(`https://newsapi.org/v2/top-headlines?category=${category}&apiKey=${process.env.NEWS_API_KEY}`);
         const articles = response.data.articles;
 
-        notifySubscribers(category, articles);
+        // notifySubscribers(category, articles);
         res.json(articles);
     } catch (error) {
         res.status(500).send('Error fetching news');
