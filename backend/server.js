@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -12,6 +13,10 @@ const newsRoutes = require('./routes/news');
 
 app.use('/api/news', newsRoutes);
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+mongoose.connect('mongodb+srv://avinashselvi214:avinash@newsappcluster0.8vvss.mongodb.net/?retryWrites=true&w=majority&appName=newsappCluster0', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+    })
+    .catch(err => console.error(err));
