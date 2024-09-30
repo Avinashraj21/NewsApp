@@ -18,8 +18,8 @@ const News = ({ category }) => {
                 {category.charAt(0).toUpperCase() + category.slice(1)} News
             </h2>
             <ul className="space-y-4">
-                {articles.map((article) => (
-                    <li key={article.title} className="border p-4 rounded shadow-md flex">
+                {articles.map((article, idx) => (
+                    <li key={idx} className="border p-4 rounded shadow-md flex">
                         {article.urlToImage && (
                             <img
                                 src={article.urlToImage}
