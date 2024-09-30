@@ -6,7 +6,7 @@ const News = ({ category }) => {
 
     useEffect(() => {
         const fetchNews = async () => {
-            const response = await axios.get(`https://newsapp-dohg.onrender.com/api/news/${category}`);
+            const response = await axios.get(`http://localhost:5000/api/news/${category}`);
             setArticles(response.data);
         };
         fetchNews();
