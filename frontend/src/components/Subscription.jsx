@@ -7,7 +7,7 @@ const Subscription = () => {
 
     const handleSubscribe = async (e) => {
         e.preventDefault();
-        await axios.post('http://localhost:5000/api/subscription/subscribe', { email, category });
+        await axios.post('https://newsapp-dohg.onrender.com/api/subscription/subscribe', { email, category });
         alert('Subscribed successfully!');
     };
 
