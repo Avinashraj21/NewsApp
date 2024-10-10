@@ -4,7 +4,13 @@ import Subscription from './components/Subscription';
 
 const App = () => {
     const [selectedCategory, setSelectedCategory] = useState('business');
+    const [isDropdownOpen, setDropdownOpen] = useState(false); // State for dropdown
     const categories = ['business', 'entertainment', 'health', 'science', 'sports'];
+
+    const handleCategorySelect = (category) => {
+        setSelectedCategory(category);
+        setDropdownOpen(false); // Close dropdown on selection
+    };
 
     return (
         <div>
@@ -18,6 +24,12 @@ const App = () => {
                             </svg>
                         </span>
                     </div>
+                    {isDropdownOpen && (
+                        <div className="absolute right-0 mt-2 w-fit bg-white shadow-lg rounded z-10 flex flex-col items-start ">
+                            <button className=' px-5 py-1 border-b' onClick={() => window.location.href = '/dashboard'}>Dashboard</button>
+                            <button className='px-5 py-1  '>Profile</button>
+                        </div>
+                    )}
                 </div>
             </header>
 
