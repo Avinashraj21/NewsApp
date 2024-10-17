@@ -27,7 +27,7 @@ const News = ({ category }) => {
         const fetchNews = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`/api/news/${category}`);
+                const response = await axios.get(`https://newsapp-dohg.onrender.com/api/news/${category}`);
                 setArticles(response.data);
             } catch (error) {
                 console.error("Error fetching news:", error);
@@ -45,7 +45,7 @@ const News = ({ category }) => {
                 headers: { Authorization: `Bearer ${token}` }
             };
             //console.log(config)
-            await axios.post('/api/articles/save', {
+            await axios.post('https://newsapp-dohg.onrender.com/api/articles/save', {
                 title: article?.title,
                 description: article?.description,
                 url: article?.url,

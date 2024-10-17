@@ -7,7 +7,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchSavedArticles = async () => {
             try {
-                const response = await axios.get('/api/articles/saved', {
+                const response = await axios.get('https://newsapp-dohg.onrender.com/api/articles/saved', {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }

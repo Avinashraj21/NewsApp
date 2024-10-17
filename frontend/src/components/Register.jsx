@@ -9,7 +9,7 @@ const Register = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/auth/register', { email: email, password:password },);
+            const response = await axios.post('https://newsapp-dohg.onrender.com/api/auth/register', { email: email, password:password },);
             window.location.href = '/login';
         } catch (err) {
             //console.log(err)
