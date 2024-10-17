@@ -25,7 +25,8 @@ const News = ({ category }) => {
         const fetchNews = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`https://newsapp-dohg.onrender.com/api/news/${category}`);
+                // https://newsapp-dohg.onrender.com/
+                const response = await axios.get(`/api/news/${category}`);
                 setArticles(response.data);
             } catch (error) {
                 console.error("Error fetching news:", error);
@@ -63,6 +64,8 @@ const News = ({ category }) => {
             // Here you can add your logic to navigate to the article details or fetch more data
         }, 2000); // Simulated loading time
     };
+
+    console.log("currentArticles: ",currentArticles)
 
     return (
         <div className='w-full my-5'>

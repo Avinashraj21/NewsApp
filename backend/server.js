@@ -1,24 +1,32 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 const cors = require('cors');
-require('dotenv').config();
+
+dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
-app.use(cors());
 app.use(express.json());
+app.use(cors());
 
-const subscriptionRoutes = require('./routes/subscription');
+// Import 
+const authRoutes = require('./routes/auth');
 const newsRoutes = require('./routes/news');
 
+app.use('/api/auth', authRoutes);
 app.use('/api/news', newsRoutes);
-app.use('/api/subscription', subscriptionRoutes.router);
 
-mongoose.connect('mongodb+srv://avinashselvi214:avinash@newsappcluster0.8vvss.mongodb.net/?retryWrites=true&w=majority&appName=newsappCluster0', { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => {
-        app.listen(PORT, () => {
-            console.log(`Server is running on port ${PORT}`);
-        });
-    })
-    .catch(err => console.error(err));
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    console.log('MongoDB connected');
+}).catch((err) => {
+    console.error('MongoDB connection error:', err);
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
