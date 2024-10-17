@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { Router, Route, Switch, Redirect, Link } from 'wouter';
 import Login from './components/Login';
 import Subscription from './components/Subscription';
 import Register from './components/Register';
@@ -50,8 +50,8 @@ const App = () => {
                                 </>
                             ) : (
                                 <>
-                                    <button className='px-5 py-1 border-b' onClick={() => window.location.href = '/login'}>Login</button>
-                                    <button className='px-5 py-1' onClick={() => window.location.href = '/register'}>Register</button>
+                                    <Link href="/login" className='px-5 py-1 border-b'>Login</Link>
+                                    <Link href="/register" className='px-5 py-1'>Register</Link>
                                 </>
                             )}
                         </div>
@@ -60,10 +60,9 @@ const App = () => {
             </header>
 
             <div className="container mx-auto p-5">
-                <Routes>
-                    <Route
-                        path="/"
-                        element={isAuthenticated ? (
+                <Switch>
+                    <Route path="/">
+                        {isAuthenticated ? (
                             <>
                                 <Subscription />
                                 <div className="mt-6">
@@ -82,12 +81,16 @@ const App = () => {
                                 </div>
                             </>
                         ) : (
-                            <Navigate to="/login" />
+                            <Redirect to="/login" />
                         )}
-                    />
-                    <Route path="/login" element={<Login isAuth={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
-                    <Route path="/register" element={<Register />} />
-                </Routes>
+                    </Route>
+                    <Route path="/login">
+                        <Login isAuth={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+                    </Route>
+                    <Route path="/register">
+                        <Register />
+                    </Route>
+                </Switch>
             </div>
         </Router>
     );

@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const Login = ({ setIsAuthenticated, isAuth }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate();
 
     useEffect(()=>{
         if (isAuth) {
@@ -17,12 +15,12 @@ const Login = ({ setIsAuthenticated, isAuth }) => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/auth/login', { email, password });
+            const response = await axios.post('https://newsapp-dohg.onrender.com/api/auth/login', { email, password });
             const token = response.data.token;
 
             localStorage.setItem('token', token); // Store token
             setIsAuthenticated(true); // Set user as authenticated
-            navigate('/'); // Redirect to home page
+            window.location.href = '/';
         } catch (err) {
             setError('Invalid credentials');
         }

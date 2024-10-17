@@ -26,7 +26,7 @@ const News = ({ category }) => {
             setLoading(true);
             try {
                 // https://newsapp-dohg.onrender.com/
-                const response = await axios.get(`/api/news/${category}`);
+                const response = await axios.get(`https://newsapp-dohg.onrender.com/api/news/${category}`);
                 setArticles(response.data);
             } catch (error) {
                 console.error("Error fetching news:", error);

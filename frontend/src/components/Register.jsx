@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/auth/register', { email: email, password:password },);
-            navigate('/login'); 
+            const response = await axios.post('https://newsapp-dohg.onrender.com/api/auth/register', { email: email, password:password },);
+            window.location.href = '/login';
         } catch (err) {
             console.log(err)
             setError('Registration failed');
