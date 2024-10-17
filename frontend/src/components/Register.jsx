@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Register = () => {
@@ -9,13 +9,19 @@ const Register = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://newsapp-dohg.onrender.com/api/auth/register', { email: email, password:password },);
+            const response = await axios.post('/api/auth/register', { email: email, password:password },);
             window.location.href = '/login';
         } catch (err) {
-            console.log(err)
+            //console.log(err)
             setError('Registration failed');
         }
     };
+
+    useEffect(()=>{
+        if (localStorage.getItem('token')) {
+            window.location.href='/';
+        }
+    })
 
     return (
         <div className="w-full h-screen realtive">

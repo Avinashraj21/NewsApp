@@ -18,15 +18,16 @@ const News = ({ category }) => {
     const [articles, setArticles] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [articlesPerPage] = useState(6);
-    const [loading, setLoading] = useState(false); // Loader state for fetching articles
-    const [loadingCard, setLoadingCard] = useState(null); // Loader state for specific card
+    const [loading, setLoading] = useState(false);
+    const [loadingCard, setLoadingCard] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+
 
     useEffect(() => {
         const fetchNews = async () => {
             setLoading(true);
             try {
-                // https://newsapp-dohg.onrender.com/
-                const response = await axios.get(`https://newsapp-dohg.onrender.com/api/news/${category}`);
+                const response = await axios.get(`/api/news/${category}`);
                 setArticles(response.data);
             } catch (error) {
                 console.error("Error fetching news:", error);
@@ -37,12 +38,40 @@ const News = ({ category }) => {
         fetchNews();
     }, [category]);
 
+    const handleSaveArticle = async (article) => {
+        try {
+            const token = localStorage.getItem('token');
+            const config = {
+                headers: { Authorization: `Bearer ${token}` }
+            };
+            //console.log(config)
+            await axios.post('/api/articles/save', {
+                title: article?.title,
+                description: article?.description,
+                url: article?.url,
+                source: article?.source
+            },
+        config);
+            alert('Article saved!');
+        } catch (error) {
+            console.error(error);
+            alert('Failed to save article');
+        }
+    };
+
     const placeholderImage = 'https://via.placeholder.com/300x180?text=Image+Not+Available';
 
     const totalPages = Math.ceil(articles.length / articlesPerPage);
     const indexOfLastArticle = currentPage * articlesPerPage;
     const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
-    const currentArticles = articles.slice(indexOfFirstArticle, indexOfLastArticle);
+
+    // Filter articles based on search query
+    const filteredArticles = articles.filter(article =>
+        article.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        article.description?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const currentArticles = filteredArticles.slice(indexOfFirstArticle, indexOfLastArticle);
 
     const handleNextPage = () => {
         if (currentPage < totalPages) {
@@ -57,18 +86,25 @@ const News = ({ category }) => {
     };
 
     const handleCardClick = (articleIdx) => {
-        setLoadingCard(articleIdx); // Start loading for the specific card
-        // Simulate a loading delay, e.g., fetching more details
+        setLoadingCard(articleIdx);
         setTimeout(() => {
-            setLoadingCard(null); // Stop loading after a delay
-            // Here you can add your logic to navigate to the article details or fetch more data
-        }, 2000); // Simulated loading time
+            setLoadingCard(null);
+        }, 2000);
     };
-
-    console.log("currentArticles: ",currentArticles)
 
     return (
         <div className='w-full my-5'>
+            {/* Search Input */}
+            <div className="mb-4">
+                <input
+                    type="text"
+                    placeholder="Search for articles..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="p-2 border rounded w-full"
+                />
+            </div>
+
             {loading ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {Array.from({ length: articlesPerPage }).map((_, idx) => (
@@ -111,11 +147,12 @@ const News = ({ category }) => {
                                         {article.title}
                                     </a>
                                     <p className="text-gray-600 mt-2">{article.description}</p>
+                                    <button onClick={() => handleSaveArticle(article)} className="bg-blue-500 text-white p-2 rounded">Save</button>
                                 </div>
                             </li>
                         ))}
                     </ul>
-                    
+
                     <div className="flex justify-between my-5">
                         <button
                             onClick={handlePrevPage}
@@ -125,8 +162,8 @@ const News = ({ category }) => {
                             Previous
                         </button>
                         <div className="mt-2 text-center">
-                        Page {currentPage} of {totalPages}
-                    </div>
+                            Page {currentPage} of {totalPages}
+                        </div>
                         <button
                             onClick={handleNextPage}
                             disabled={currentPage === totalPages}
@@ -135,7 +172,6 @@ const News = ({ category }) => {
                             Next
                         </button>
                     </div>
-                   
                 </>
             )}
         </div>

@@ -25,7 +25,7 @@ const notifySubscribers = async (category, articles) => {
 
 
     if (subscriptions.length === 0) {
-        console.log("No subscribers for this category.");
+        //console.log("No subscribers for this category.");
         return; // Exit if there are no subscribers
     }
 
@@ -42,7 +42,7 @@ const notifySubscribers = async (category, articles) => {
         //         if (error) {
         //             console.error('Error sending email:', error);
         //         } else {
-        //             console.log('Email sent:', body);
+        //             //console.log('Email sent:', body);
         //         }
         //     });
         // }

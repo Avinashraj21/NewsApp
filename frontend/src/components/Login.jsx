@@ -7,15 +7,15 @@ const Login = ({ setIsAuthenticated, isAuth }) => {
     const [error, setError] = useState('');
 
     useEffect(()=>{
-        if (isAuth) {
-            navigate('/');
+        if (localStorage.getItem('token')) {
+            window.location.href='/';
         }
     })
 
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://newsapp-dohg.onrender.com/api/auth/login', { email, password });
+            const response = await axios.post('/api/auth/login', { email, password });
             const token = response.data.token;
 
             localStorage.setItem('token', token); // Store token

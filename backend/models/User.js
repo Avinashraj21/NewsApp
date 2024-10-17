@@ -1,15 +1,11 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const UserSchema = new mongoose.Schema({
-    email: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    password: {
-        type: String,
-        required: true
-    }
+const userSchema = new Schema({
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    savedArticles: [{ type: Schema.Types.ObjectId, ref: 'Article' }]  // Reference to saved articles
 });
 
-module.exports = mongoose.model('User', UserSchema);
+const User = mongoose.model('User', userSchema);
+module.exports = User;
