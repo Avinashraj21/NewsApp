@@ -5,21 +5,33 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [showLoginBtn, setShowLoginBtn] = useState(false);
+    const [success, isSuccess] = useState('');
 
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://newsapp-dohg.onrender.com/api/auth/register', { email: email, password:password },);
-            window.location.href = '/login';
+            const response = await axios.post('https://newsapp-dohg.onrender.com/api/auth/register', { email: email, password: password },);
+            
+            console.log("Res reg: ",response)
+            if (response.status === 201) {
+                // window.location.href = '/login';
+                setShowLoginBtn(true);
+                isSuccess(response.data.message);
+            }
+            else {
+                setShowLoginBtn(false);
+                isSuccess("");
+            }
         } catch (err) {
             //console.log(err)
             setError('Registration failed');
         }
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         if (localStorage.getItem('token')) {
-            window.location.href='/';
+            window.location.href = '/';
         }
     })
 
@@ -29,7 +41,8 @@ const Register = () => {
                 <div>
                     <h2 className="text-3xl font-bold mb-4">Register</h2>
                     <form onSubmit={handleRegister}>
-                        {error && <p className="text-red-500">{error}</p>}
+                    {error && <p className="text-red-500">{error}</p>}
+                    {isSuccess && <p className="text-green-500">{success}</p>}
                         <div>
                             <input
                                 type="email"
@@ -52,6 +65,11 @@ const Register = () => {
                         </div>
                         <button type="submit" className="bg-blue-500 text-white p-2 rounded">Register</button>
                     </form>
+                    {(showLoginBtn && isSuccess) && (
+                        <p>
+                            Go to Login Page  <a href='/login' className='underline text-blue-500'>Click Here</a>
+                        </p>
+                    )}
                 </div>
             </div>
         </div>
