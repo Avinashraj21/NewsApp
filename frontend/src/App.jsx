@@ -34,8 +34,8 @@ const App = () => {
 
     return (
         <Router>
-            <header className='py-3 px-10 bg-slate-300 flex justify-between items-center'>
-                <h1 className="text-4xl font-bold">News Application</h1>
+            <header className='py-3 px-10 border-2 border-b flex justify-between items-center'>
+                <h1 className="text-4xl font-bold">Avinash News Portal</h1>
                 <div className='relative'>
                     <div className='w-10 h-10 bg-white rounded-full cursor-pointer shadow-sm' onClick={() => setDropdownOpen(!isDropdownOpen)}>
                         <span className='w-full h-full p-2 block'>
