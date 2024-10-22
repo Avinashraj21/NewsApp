@@ -19,7 +19,7 @@ const Login = ({ setIsAuthenticated, isAuth }) => {
             const token = response.data.token;
 
             localStorage.setItem('token', token); // Store token
-            setIsAuthenticated(true); // Set user as authenticated
+            // setIsAuthenticated(true); // Set user as authenticated
             window.location.href = '/';
         } catch (err) {
             setError('Invalid credentials');
