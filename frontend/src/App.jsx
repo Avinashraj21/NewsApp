@@ -89,7 +89,7 @@ const App = () => {
                         )}
                     </Route>
                     <Route path="/login">
-                        <Login isAuth={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+                        <Login  />
                     </Route>
                     <Route path="/register">
                         <Register />
